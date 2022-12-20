@@ -1,0 +1,19 @@
+name: Prepare Nix
+
+description: Install Nix, log in to cachix, cache flake inputs and shell
+
+inputs:
+  GITHUB_TOKEN:
+    description: GitHub token
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Install Nix
+      uses: cachix/install-nix-action@v18
+      with:
+        extra_nix_config: |
+          access-tokens = github.com=${{ inputs.GITHUB_TOKEN }}
+          substituters = https://deemp.cachix.org https://cache.nixos.org/ https://cache.iog.io https://nix-community.cachix.org
+        install_url: https://releases.nixos.org/nix/nix-2.11.1/install
